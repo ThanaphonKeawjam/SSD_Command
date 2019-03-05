@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 
@@ -9,10 +11,15 @@ public class World extends Observable {
     private Player player;
     private Thread thread;
     private boolean notOver;
-    private long delayed = 500;
+    private long delayed = 1000;
     private int enemyCount = 10;
 
     private Enemy [] enemies;
+
+    private List<Command> list = new ArrayList<>();
+    private boolean replayMode = false;
+
+    public void setReplayMode(){ this.replayMode = true; }
 
     public World(int size) {
         this.size = size;
@@ -34,6 +41,13 @@ public class World extends Observable {
             @Override
             public void run() {
                 while(notOver) {
+                    if(replayMode){
+                        for(Command c : list){
+                            if(c.getTick() == tick){
+                                c.execute();
+                            }
+                        }
+                    }
                     tick++;
                     player.move();
                     checkCollisions();
@@ -75,19 +89,27 @@ public class World extends Observable {
     }
 
     public void turnPlayerNorth() {
-        player.turnNorth();
+        CommandNorth command = new CommandNorth(tick, player);
+        command.execute();
+        list.add(command);
     }
 
     public void turnPlayerSouth() {
-        player.turnSouth();
+        CommandSouth command = new CommandSouth(tick, player);
+        command.execute();
+        list.add(command);
     }
 
     public void turnPlayerWest() {
-        player.turnWest();
+        CommandWest command = new CommandWest(tick, player);
+        command.execute();
+        list.add(command);
     }
 
     public void turnPlayerEast() {
-        player.turnEast();
+        CommandEast command = new CommandEast(tick, player);
+        command.execute();
+        list.add(command);
     }
 
     public Enemy[] getEnemies() {

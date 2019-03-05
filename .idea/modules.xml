@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Command.iml" filepath="$PROJECT_DIR$/Command.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SSD_Command.iml" filepath="$PROJECT_DIR$/SSD_Command.iml" />
     </modules>
   </component>
 </project>
